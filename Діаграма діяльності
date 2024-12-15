@@ -1,0 +1,43 @@
+@startuml
+start
+fork
+    :Configure system for the
+    calculation process;
+fork again
+    :Configure system
+    to load greenhouse;
+end fork
+:Load configuration of
+calculation proceses;
+:Load greenhouse;
+fork
+    :Calculate normal vector
+    for each greenhouse surface;
+fork again
+    :Initialise table of dependencies for 
+    each pair of greenhouse surfaces;
+end fork    
+:Classify Surfaces into sectors
+according to normal vector;
+:Filter 1. Update table of 
+dependencies;
+
+repeat
+    :Select Pair of Surfaces 
+    (i, j) to be treated;
+    switch (Check Orientation?)
+    case (East)
+        :Update table of dependencies: east type;
+        
+    case (North)
+        :Update table of dependencies: north type;
+        
+    case (Zenital)
+        :Update table of dependencies: zenital type;
+        
+    endswitch
+repeat while (For each possible pair (i,j)?)
+
+: Update and store table of dependencies;
+stop
+@enduml
