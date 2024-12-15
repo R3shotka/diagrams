@@ -1,0 +1,21 @@
+@startuml
+actor Admin
+actor Student 
+actor Education 
+actor Class 
+
+Admin --> Student: Add Student to Class
+Admin --> Educator: Add Teacher to Class 
+Admin --> Class: Add Class 
+
+Educator --> Class: Teach
+Class --> Educator: Attend
+Educator --> Student: Give Test
+Student --> Educator: Answer Test
+Student --> Class: Participate
+Class --> Student: Help
+Educator --> Admin: Encode Grade
+Student --> Admin: View Grade
+Student --> Admin: Evaluate Teacher 
+Admin --> Educator: Give Feedback
+@enduml
