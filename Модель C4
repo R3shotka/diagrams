@@ -1,0 +1,86 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+
+AddElementTag("microService", $shape=EightSidedShape(), $bgColor="CornflowerBlue", $fontColor="white", $legendText="micro service\neight sided")
+AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="lightSkyBlue", $fontColor="white")
+
+
+
+
+SHOW_PERSON_OUTLINE()
+
+
+Person(customer, "Customer", "A EG customer with a valid account")
+
+
+Enterprise_Boundary(c1, "EG PLC") {
+    System(app, "EG User Account", "Allows customers to view information about their account and share meter readings", "Software System")
+    System_Ext(paymets, "Paymets","Manages direct debit, card payments", "Software System")
+    System_Ext(notifications, "Notifications","Pushes notification to user's", "Software System")
+    System_Ext(eg_backend, "EG Backend","Stores all core information, user accounts, billing details etc.,", "Software System")
+}
+
+
+customer ..> app : Uses
+app ..> eg_backend : Uses
+eg_backend ..> paymets : Raises payment using
+app ..> notifications : Sends notification using
+notifications ..> customer : Sends notification to
+
+
+SHOW_LEGEND()
+@enduml
+
+
+
+2 рівень
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+
+AddElementTag("microService", $shape=EightSidedShape(), $bgColor="CornflowerBlue", $fontColor="white", $legendText="micro service\neight sided")
+AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="lightSkyBlue", $fontColor="white")
+
+
+
+
+SHOW_PERSON_OUTLINE()
+
+
+
+
+Person(customer, "Customer", "A EG customer with a valid account")
+
+
+
+
+System_Boundary(c1, "EG User Account") {
+    Container(web, "Web App", "Container: Node.js, JavaScript", "Renders login page with necessary assets")
+    Container(mob, "Mobile App", "Container: Android", "Provides user capabilities based on their plan")
+    Container(back, "Backend API App", "Container: Node.js, JavaScript", "Provides user account managment via JSON/HTTPS API.")
+    ContainerDb(customer_db, "Database", "Container: MariaDB", "Stores users accounts, billing, plans, payment details etc.,", $tags = "storage")
+    Container(single, "Single page app", "Container: Node.js, JavaScript", "Provides user capabilities based ontheir plan")
+}
+
+
+
+
+System_Ext(paymets, "Paymets", "Manages direct debit, card payments", "Software System")
+System_Ext(notifications, "Notifications", "Software System", "Software System")
+
+
+
+
+customer ..> web : Visits egenergy.com/login using [HTTP]
+customer ..> mob : Views egenergy.com/login using
+mob ..> back : Makes API calls to [JSON/HTTPS]
+back ..> customer_db : Reads from and writes to [PDO]
+back ..> paymets : Triggers payment system using [JSON/HTTPS]
+back ..> notifications : Sends notification using [JSON/HTTPS]
+notifications ..> customer : Sends notification to
+web ..> single : Delivers to user browser
+single ..> back : Makes API calls to [JSON/HTTPS]
+customer ..> single : Views account, submit readings using
+SHOW_LEGEND()
+@enduml
