@@ -1,0 +1,54 @@
+@startuml
+skinparam componentStyle uml1
+
+
+
+
+
+[Timetable Management System] as tms
+[Timetable] as t
+[Faculty] as f
+[Subject] as s
+[Database] as db
+
+
+
+
+
+person Admin as p
+p --> tms
+interface " " as anon1
+interface " " as anon2
+interface " " as anon3
+
+
+
+
+
+tms --> t : add/view
+tms --> f : add/view
+tms --> s : add/view
+
+
+
+
+anon1 - t : Data Access
+anon2 - f : Data Access
+anon3 - s : Data Access
+
+
+
+
+
+Interface int1
+t --|> int1
+f --|> int1
+s --|> int1
+
+
+
+
+db -( int1
+@enduml
+
+
