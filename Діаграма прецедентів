@@ -1,0 +1,48 @@
+@startuml
+Service << Authentication >>
+actor IdentityProvider as "Identity Provider"
+(User Sign-in)
+(Remember me)
+(Single Sign-on)
+
+
+(Customer Authentication)
+
+
+
+
+
+
+
+
+Service -> (User Sign-in)
+Service -> (Remember me)
+Service -> (Single Sign-on)
+(User Sign-in) -> (Customer Authentication)
+(Remember me) -> (Customer Authentication)
+(Single Sign-on) -> (Customer Authentication)
+
+
+
+
+
+
+
+
+(Checkout) ..> (Customer Authentication) : <<include>>
+(Checkout) ..> (View/Update Shopping cart) : <<include>>
+(View/Update Shopping cart) ..> (Calculate Total) : <<include>>
+(Checkout) ..> (Calculate Taxes and Shipping) : <<include>>
+(Checkout) ..> (Payment) : <<include>>
+IdentityProvider -> (Single Sign-on)
+
+
+actor credit as "Credit Payment Service"
+credit -> (Payment By Credit)
+(Payment By Credit) -> (Payment)
+actor paypal as "Paypal"
+paypal -> (Payment By Paypal)
+(Payment By Paypal) -> (Payment)
+
+
+@enduml
